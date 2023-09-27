@@ -1,7 +1,7 @@
 # vscode-color-empty-lines-please README
 
-Extension for VSCode that will highlight empty lines (it works even if the lines don't contain any white-space characters).  
-This is particularly useful for people affected by Irlen syndrome.
+Extension for VSCode that will highlight empty lines (it works even if the lines don't contain any white-space characters).
+This is particularly useful for people affected by Irlen syndrome, Dyslexia, or people that are just tired and needs visual cues for a better responsive coding experience.
 
 ![image](https://github.com/vdegenne/vscode-color-empty-lines-please/assets/2827383/a8030432-0682-471d-b984-9e35b5da6712)
 

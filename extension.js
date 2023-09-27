@@ -58,17 +58,36 @@ function activate(context) {
 function activateEmptyLineColors() {
 	if (!decorationType) {
 		decorationType = vscode.window.createTextEditorDecorationType({
-			backgroundColor: 'rgba(211, 211, 211, 0.3)', // Choose your desired color
+			backgroundColor: 'rgba(211, 211, 211, 0.3)', // Light gray with some transparency
 			isWholeLine: true,
 		});
 	}
 
+	// Apply decorations to existing editors
 	vscode.window.visibleTextEditors.forEach((editor) => {
 		if (colorEmptyLinesEnabled) {
 			colorEmptyLines(editor);
 		}
 	});
 
+	// Listen for text document changes
+	vscode.workspace.onDidChangeTextDocument((event) => {
+		if (colorEmptyLinesEnabled) {
+			// Clear existing decorations before applying new ones
+			vscode.window.visibleTextEditors.forEach((editor) => {
+				editor.setDecorations(decorationType, []);
+			});
+
+			// Reapply decorations to all visible text editors
+			vscode.window.visibleTextEditors.forEach((editor) => {
+				if (colorEmptyLinesEnabled) {
+					colorEmptyLines(editor);
+				}
+			});
+		}
+	});
+
+	// Listen for active text editor changes
 	vscode.window.onDidChangeActiveTextEditor((editor) => {
 		if (colorEmptyLinesEnabled && editor) {
 			colorEmptyLines(editor);
@@ -89,7 +108,7 @@ function colorEmptyLines(editor) {
 	for (let line = 0; line < editor.document.lineCount; line++) {
 		const text = editor.document.lineAt(line).text;
 		if (text.trim() === '') {
-			const range = new vscode.Range(line, 0, line, 0); // Extend the range to cover the entire line
+			const range = new vscode.Range(line, 0, line, 0);
 			emptyLineRanges.push(range);
 		}
 	}
